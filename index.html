@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keelan COLOMBE - Landing & Personal Space</title>
     <style>
-        /* Général */
         body {
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
@@ -182,5 +181,40 @@
             <p>&copy; 2025 Keelan COLOMBE. Tous droits réservés.</p>
         </footer>
     </div>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        const passwordForm = document.getElementById('passwordForm');
+        const failText = document.getElementById('failText');
+        const errorGif = document.getElementById('errorGif');
+        let attemptCount = 0;
+        const gifs = [
+            "https://media.giphy.com/media/fIkT0LdGUc4GushZ2Q/giphy.gif",
+            "https://media.giphy.com/media/li0dswKqIZNpm/giphy.gif",
+            "https://media.giphy.com/media/26xBKqeFFspRZjDTW/giphy.gif"
+        ];
+
+        passwordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+
+            if (password === '0000') {
+                document.getElementById('password').value = '';
+                failText.style.display = 'none';
+                errorGif.style.display = 'none';
+                showPage('personalSpacePage');
+            } else {
+                failText.style.display = 'block';
+                attemptCount++;
+                errorGif.src = gifs[attemptCount % gifs.length];
+                errorGif.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
