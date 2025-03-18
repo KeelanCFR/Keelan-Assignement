@@ -5,47 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keelan COLOMBE - Landing & Personal Space</title>
     <style>
+        /* Général */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #D0E7F9;
             color: #333;
         }
 
         header {
             background-color: #007BFF;
             color: white;
-            padding: 15px;
+            padding: 10px;
             text-align: center;
         }
 
-        .main-content {
-            padding: 20px;
-            text-align: center;
+        h1 {
+            font-size: 3rem;
         }
 
         button {
             background-color: #0056b3;
             color: white;
-            padding: 10px 20px;
+            padding: 30px 40px;
             border: none;
+            font-size: 15px;
             cursor: pointer;
             border-radius: 5px;
-            margin: 10px;
+            margin: 20px;
         }
 
         button:hover {
             background-color: #003366;
         }
 
-        .hidden {
-            display: none;
+        .main-content {
+            padding: 40px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #007BFF;
+            color: white;
+            padding: 5px;
+            text-align: center;
+        }
+
+        a {
+            color: black;
+            font-size: 2rem;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
         }
 
         #fileList {
             list-style-type: none;
             padding: 0;
+            text-align: left;
         }
 
         #fileList li {
@@ -53,18 +74,58 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #fff;
-            padding: 10px;
-            border-radius: 5px;
         }
+
+        #fileList button {
+            background-color: #FF3B30;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .password-form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .password-form input {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .back-to-landing {
+            display: block;
+            margin: 20px auto;
+            background-color: #28a745;
+        }
+
+        #errorGif {
+            display: none;
+            width: 300px;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #failText {
+            color: red;
+            font-size: 20px;
+            font-weight: bold;
+            display: none;
+        }
+
     </style>
 </head>
 <body>
-    <div id="landingPage">
+    <div id="landingPage" class="page active">
         <header>
             <h1>Keelan COLOMBE</h1>
         </header>
-        
         <div class="main-content">
             <p>Global Logistic Assignment</p>
             <div>
@@ -73,78 +134,53 @@
                 <a href="" id="assignment3Link" target="_blank"><button>Assignment 3</button></a>
                 <a href="" id="assignment4Link" target="_blank"><button>Assignment 4</button></a>
             </div>
-            <p><a href="#personalSpacePage" onclick="showPersonalSpace()">Personal Space</a></p>
+            <p><a href="#passwordPage" onclick="showPage('passwordPage')">PS</a></p>
         </div>
+        <footer>
+            <p>&copy; 2025 Keelan COLOMBE. Tous droits réservés.</p>
+        </footer>
     </div>
 
-    <div id="personalSpacePage" class="hidden">
+    <div id="passwordPage" class="page">
         <header>
-            <h1>Personal Space - Documents</h1>
+            <h1>Personal Space</h1>
+        </header>
+        <div class="password-form">
+            <h2>Enter Password Please :</h2>
+            <form id="passwordForm" method="post">
+                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                <button type="submit">Accéder</button>
+            </form>
+            <div id="failText">Fail</div>
+            <img id="errorGif" src="" alt="Erreur mot de passe" />
+        </div>
+        <button id="backToLandingPage" class="back-to-landing" onclick="showPage('landingPage')">landing page</button>
+    </div>
+
+    <div id="personalSpacePage" class="page">
+        <header>
+            <h1>Personal Space - Keelan COLOMBE</h1>
         </header>
         <div class="main-content">
-            <ul id="fileList"></ul>
-            <button onclick="showLandingPage()">Retour à la Landing Page</button>
+            <h3>Documents disponibles</h3>
+            <ul id="fileList">
+                <li>
+                    <a href="https://raw.githubusercontent.com/KeelanCFR/Keelan-Assignement/main/excalidraw_pagani.png" target="_blank">excalidraw_pagani.png</a>
+                    <select>
+                        <option value="none">Aucun</option>
+                        <option value="assignment1">Assignment 1</option>
+                        <option value="assignment2">Assignment 2</option>
+                        <option value="assignment3">Assignment 3</option>
+                        <option value="assignment4">Assignment 4</option>
+                    </select>
+                </li>
+            </ul>
+            <button onclick="clearFiles()">Delete all the documents</button>
+            <p><a href="#landingPage" onclick="showPage('landingPage')">Landing Page</a></p>
         </div>
+        <footer>
+            <p>&copy; 2025 Keelan COLOMBE. Tous droits réservés.</p>
+        </footer>
     </div>
-
-    <script>
-        function showPersonalSpace() {
-            document.getElementById('landingPage').classList.add('hidden');
-            document.getElementById('personalSpacePage').classList.remove('hidden');
-            loadFiles();
-        }
-
-        function showLandingPage() {
-            document.getElementById('landingPage').classList.remove('hidden');
-            document.getElementById('personalSpacePage').classList.add('hidden');
-        }
-
-        const repoUrl = "https://raw.githubusercontent.com/KeelanCFR/Keelan-Assignement/main/";
-        const fileNames = [
-            "excalidraw_pagani.png",
-            "document1.pdf",
-            "document2.png"
-        ];
-
-        function loadFiles() {
-            const fileList = document.getElementById("fileList");
-            fileList.innerHTML = "";
-            
-            fileNames.forEach(file => {
-                const listItem = document.createElement("li");
-                const fileLink = document.createElement("a");
-                fileLink.href = repoUrl + file;
-                fileLink.target = "_blank";
-                fileLink.textContent = file;
-                
-                const select = document.createElement("select");
-                ["Aucun", "Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4"].forEach(option => {
-                    const opt = document.createElement("option");
-                    opt.value = option;
-                    opt.textContent = option;
-                    select.appendChild(opt);
-                });
-                
-                select.addEventListener("change", function() {
-                    const assignmentLinks = {
-                        "Assignment 1": "assignment1Link",
-                        "Assignment 2": "assignment2Link",
-                        "Assignment 3": "assignment3Link",
-                        "Assignment 4": "assignment4Link",
-                        "Aucun": null
-                    };
-                    const selectedAssignment = select.value;
-                    const linkElement = document.getElementById(assignmentLinks[selectedAssignment]);
-                    if (linkElement) {
-                        linkElement.href = fileLink.href;
-                    }
-                });
-                
-                listItem.appendChild(fileLink);
-                listItem.appendChild(select);
-                fileList.appendChild(listItem);
-            });
-        }
-    </script>
 </body>
 </html>
