@@ -117,7 +117,6 @@
             font-weight: bold;
             display: none;
         }
-
     </style>
 </head>
 <body>
@@ -128,12 +127,12 @@
         <div class="main-content">
             <p>Global Logistic Assignment</p>
             <div>
-                <a href="" id="assignment1Link" target="_blank"><button>Assignment 1</button></a>
-                <a href="" id="assignment2Link" target="_blank"><button>Assignment 2</button></a>
-                <a href="" id="assignment3Link" target="_blank"><button>Assignment 3</button></a>
-                <a href="" id="assignment4Link" target="_blank"><button>Assignment 4</button></a>
+                <a href="https://raw.githubusercontent.com/KeelanCFR/Keelan-Assignement/main/assignment1.pdf" target="_blank"><button>Assignment 1</button></a>
+                <a href="https://raw.githubusercontent.com/KeelanCFR/Keelan-Assignement/main/assignment2.pdf" target="_blank"><button>Assignment 2</button></a>
+                <a href="https://raw.githubusercontent.com/KeelanCFR/Keelan-Assignement/main/assignment3.pdf" target="_blank"><button>Assignment 3</button></a>
+                <a href="https://raw.githubusercontent.com/KeelanCFR/Keelan-Assignement/main/assignment4.pdf" target="_blank"><button>Assignment 4</button></a>
             </div>
-            <p><a href="#passwordPage" onclick="showPage('passwordPage')">PS</a></p>
+            <p><a href="#" onclick="showPage('passwordPage')">PS</a></p>
         </div>
         <footer>
             <p>&copy; 2025 Keelan COLOMBE. Tous droits réservés.</p>
@@ -153,7 +152,7 @@
             <div id="failText">Fail</div>
             <img id="errorGif" src="" alt="Erreur mot de passe" />
         </div>
-        <button id="backToLandingPage" class="back-to-landing" onclick="showPage('landingPage')">landing page</button>
+        <button class="back-to-landing" onclick="showPage('landingPage')">Landing Page</button>
     </div>
 
     <div id="personalSpacePage" class="page">
@@ -165,17 +164,9 @@
             <ul id="fileList">
                 <li>
                     <a href="https://raw.githubusercontent.com/KeelanCFR/Keelan-Assignement/main/excalidraw_pagani.png" target="_blank">excalidraw_pagani.png</a>
-                    <select>
-                        <option value="none">Aucun</option>
-                        <option value="assignment1">Assignment 1</option>
-                        <option value="assignment2">Assignment 2</option>
-                        <option value="assignment3">Assignment 3</option>
-                        <option value="assignment4">Assignment 4</option>
-                    </select>
                 </li>
             </ul>
-            <button onclick="clearFiles()">Delete all the documents</button>
-            <p><a href="#landingPage" onclick="showPage('landingPage')">Landing Page</a></p>
+            <p><a href="#" onclick="showPage('landingPage')">Landing Page</a></p>
         </div>
         <footer>
             <p>&copy; 2025 Keelan COLOMBE. Tous droits réservés.</p>
@@ -184,35 +175,16 @@
 
     <script>
         function showPage(pageId) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
         }
 
-        const passwordForm = document.getElementById('passwordForm');
-        const failText = document.getElementById('failText');
-        const errorGif = document.getElementById('errorGif');
-        let attemptCount = 0;
-        const gifs = [
-            "https://media.giphy.com/media/fIkT0LdGUc4GushZ2Q/giphy.gif",
-            "https://media.giphy.com/media/li0dswKqIZNpm/giphy.gif",
-            "https://media.giphy.com/media/26xBKqeFFspRZjDTW/giphy.gif"
-        ];
-
-        passwordForm.addEventListener('submit', function(e) {
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const password = document.getElementById('password').value;
-
-            if (password === '0000') {
-                document.getElementById('password').value = '';
-                failText.style.display = 'none';
-                errorGif.style.display = 'none';
+            if (document.getElementById('password').value === '0000') {
                 showPage('personalSpacePage');
             } else {
-                failText.style.display = 'block';
-                attemptCount++;
-                errorGif.src = gifs[attemptCount % gifs.length];
-                errorGif.style.display = 'block';
+                document.getElementById('failText').style.display = 'block';
             }
         });
     </script>
