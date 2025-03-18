@@ -178,11 +178,11 @@
     <!-- PAGE 3 : Personal Space -->
     <div id="personalSpacePage" class="page">
         <header>
-            <h1>Personnal Space- Keelan COLOMBE</h1>
+            <h1>Personal Space - Keelan COLOMBE</h1>
         </header>
         
         <div class="main-content">
-            
+            <!-- Téléchargement du fichier PDF -->
             <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" onchange="handleFileUpload()">
             
             <h3>PDF List</h3>
@@ -196,11 +196,6 @@
         <footer>
             <p>&copy; 2025 Keelan COLOMBE. Tous droits réservés.</p>
         </footer>
-    </div>
-
-    <!-- Ajout du lien pour le téléchargement du document -->
-    <div>
-        <a href="https://raw.githubusercontent.com/KeelanCFR/Keelan-Assignement/main/excalidraw%20pagani.png" target="_blank">Télécharger le document</a>
     </div>
 
     <script>
@@ -282,7 +277,6 @@
                     const linkElement = document.getElementById(assignmentLinks[selectedAssignment]);
                     if (linkElement) {
                         linkElement.href = fileURL;
-                        // Ne pas changer le texte du bouton
                     } else {
                         alert("Le fichier n'est lié à aucun assignment.");
                     }
