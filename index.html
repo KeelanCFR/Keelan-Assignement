@@ -5,17 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keelan COLOMBE - Landing & Personal Space</title>
     <style>
-        /* Général */
         body {
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
             padding: 0;
-            background-color: #D0E7F9; /* Fond bleu doux */
+            background-color: #D0E7F9;
             color: #333;
         }
 
         header {
-            background-color: #007BFF; /* Bleu foncé */
+            background-color: #007BFF;
             color: white;
             padding: 10px;
             text-align: center;
@@ -25,26 +24,24 @@
             font-size: 3rem;
         }
 
-        /* Boutons */
         button {
-            background-color: #0056b3; /* Bleu foncé */
+            background-color: #0056b3;
             color: white;
-            padding: 30px 40px;
+            padding: 15px 20px;
             border: none;
             font-size: 15px;
             cursor: pointer;
             border-radius: 5px;
-            margin: 20px;
+            margin: 10px;
         }
 
         button:hover {
-            background-color: #003366; /* Bleu très foncé */
+            background-color: #003366;
         }
 
-        /* Section principale */
         .main-content {
             padding: 40px;
-            font-size: 2rem;
+            font-size: 1.5rem;
             text-align: center;
         }
 
@@ -55,21 +52,17 @@
             text-align: center;
         }
 
-        a {
-            color: black;
-            font-size: 2rem;
-            text-decoration: none;
+        .page {
+            display: none;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .active {
+            display: block;
         }
 
-        /* Liste des fichiers */
         #fileList {
             list-style-type: none;
             padding: 0;
-            text-align: left;
         }
 
         #fileList li {
@@ -82,54 +75,10 @@
         #fileList button {
             background-color: #FF3B30;
         }
-
-        /* Page spécifique */
-        .page {
-            display: none;
-        }
-
-        /* Page active */
-        .active {
-            display: block;
-        }
-
-        /* Formulaire de mot de passe */
-        .password-form {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .password-form input {
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .back-to-landing {
-            display: block;
-            margin: 20px auto;
-            background-color: #28a745;
-        }
-
-        /* Style du GIF d'erreur */
-        #errorGif {
-            display: none;
-            width: 300px;
-            margin-top: 20px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        #failText {
-            color: red;
-            font-size: 20px;
-            font-weight: bold;
-            display: none;
-        }
-
     </style>
 </head>
 <body>
-    <!-- PAGE 1 : Landing Page -->
+
     <div id="landingPage" class="page active">
         <header>
             <h1>Keelan COLOMBE</h1>
@@ -153,119 +102,82 @@
         </footer>
     </div>
 
-    <!-- PAGE 2 : Mot de Passe -->
     <div id="passwordPage" class="page">
         <header>
             <h1>Personal Space</h1>
         </header>
         
-        <div class="password-form">
+        <div class="main-content">
             <h2>Enter Password Please :</h2>
-            <form id="passwordForm" method="post">
-                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+            <form id="passwordForm">
+                <input type="password" id="password" placeholder="Mot de passe" required>
                 <button type="submit">Accéder</button>
             </form>
 
-            <!-- Affichage du texte "Fail" et du GIF -->
-            <div id="failText">Fail</div>
-            <img id="errorGif" src="" alt="Erreur mot de passe" />
+            <p id="failMessage" style="color: red; display: none;">Mot de passe incorrect</p>
         </div>
 
-        <!-- Bouton de retour à la Landing Page uniquement visible sur la page du mot de passe -->
-        <button id="backToLandingPage" class="back-to-landing" onclick="showPage('landingPage')">landing page</button>
+        <button onclick="showPage('landingPage')">Retour à la Landing Page</button>
     </div>
 
-    <!-- PAGE 3 : Personal Space -->
     <div id="personalSpacePage" class="page">
         <header>
             <h1>Personal Space - Keelan COLOMBE</h1>
         </header>
         
         <div class="main-content">
-            <!-- Téléchargement du fichier PDF -->
-            <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" onchange="handleFileUpload()">
+            <input type="file" id="fileInput" accept=".png, .pdf" onchange="handleFileUpload()">
             
-            <h3>PDF List</h3>
+            <h3>Fichiers Uploadés</h3>
             <ul id="fileList"></ul>
             
-            <button onclick="clearFiles()">Delete all the documents</button>
+            <button onclick="clearFiles()">Supprimer tous les fichiers</button>
             
             <p><a href="#landingPage" onclick="showPage('landingPage')">Landing Page</a></p>
         </div>
-        
-        <footer>
-            <p>&copy; 2025 Keelan COLOMBE. Tous droits réservés.</p>
-        </footer>
     </div>
 
     <script>
-        // Fonction pour afficher une page en fonction de l'ID
         function showPage(pageId) {
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
         }
 
-        // Fonction pour valider le mot de passe et rediriger
-        const passwordForm = document.getElementById('passwordForm');
-        const failText = document.getElementById('failText');
-        const errorGif = document.getElementById('errorGif');
-        let attemptCount = 0;
-        const gifs = [
-            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGlnYXAzOXp2Z2ZlcDBoeXNxZjJ0cnR5aHoxeGVkeHYycXNjYzhjdyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/fIkT0LdGUc4GushZ2Q/giphy.gif" }, // GIF 1
-            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXRiZmdlamp2cmZyaWttMGZsNHd1ZTl1bnZ1bHUxYzBobXZtZDkweSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/li0dswKqIZNpm/giphy.gif" }, // GIF 2
-            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHp5bGRmc2VmZ3ZmNWpkMTRpemoxOWJpNm5uMjljMG9hdmk0NzhidCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26xBKqeFFspRZjDTW/giphy.gif" } // GIF 3
-        ];
-
-        passwordForm.addEventListener('submit', function(e) {
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const password = document.getElementById('password').value;
-
             if (password === '0000') {
-                // Supprimer le mot de passe de la page après un essai réussi
-                document.getElementById('password').value = ''; // Effacer le champ
-                failText.style.display = 'none'; // Cacher le texte "Fail" si le mot de passe est correct
-                errorGif.style.display = 'none'; // Cacher le GIF si le mot de passe est correct
                 showPage('personalSpacePage');
             } else {
-                // Si le mot de passe est incorrect
-                failText.style.display = 'block'; // Afficher le texte "Fail"
-                attemptCount++;
-                const gifIndex = attemptCount % gifs.length; // Choisir un GIF selon le nombre de tentatives
-                errorGif.src = gifs[gifIndex].src; // Changer le GIF
-                failText.textContent = gifs[gifIndex].text; // Changer le texte du GIF
-                errorGif.style.display = 'block'; // Afficher le GIF
+                document.getElementById('failMessage').style.display = 'block';
             }
         });
 
-        // Fonction pour gérer le téléchargement de fichiers
         function handleFileUpload() {
-            const fileInput = document.getElementById('pdfFile');
+            const fileInput = document.getElementById('fileInput');
             const fileList = document.getElementById('fileList');
-            const file = fileInput.files[0]; // Récupérer le premier fichier téléchargé
+            const file = fileInput.files[0];
 
-            if (file) {
+            if (file && (file.type === "image/png" || file.type === "application/pdf")) {
+                const fileURL = URL.createObjectURL(file);
+
                 const li = document.createElement('li');
                 const fileLink = document.createElement('a');
-                const fileURL = URL.createObjectURL(file); // Créer une URL de l'objet pour accéder au fichier
                 fileLink.href = fileURL;
                 fileLink.target = '_blank';
                 fileLink.textContent = file.name;
 
-                // Créer un bouton déroulant pour lier le fichier à un assignment
                 const select = document.createElement('select');
                 const options = ["Aucun", "Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4"];
 
-                options.forEach(function(option) {
+                options.forEach(option => {
                     const optionElement = document.createElement('option');
                     optionElement.value = option;
                     optionElement.textContent = option;
                     select.appendChild(optionElement);
                 });
 
-                // Lorsque l'option est changée, lier le fichier à l'assignment sélectionné
                 select.addEventListener('change', function() {
-                    const selectedAssignment = select.value;
                     const assignmentLinks = {
                         "Assignment 1": "assignment1Link",
                         "Assignment 2": "assignment2Link",
@@ -274,34 +186,33 @@
                         "Aucun": null
                     };
 
+                    const selectedAssignment = select.value;
                     const linkElement = document.getElementById(assignmentLinks[selectedAssignment]);
+
                     if (linkElement) {
                         linkElement.href = fileURL;
-                    } else {
-                        alert("Le fichier n'est lié à aucun assignment.");
                     }
                 });
 
-                // Créer un bouton pour supprimer le fichier
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = "Supprimer";
                 deleteButton.onclick = function() {
-                    li.remove(); // Supprimer le fichier de la liste
+                    li.remove();
                 };
 
-                // Ajouter le lien, le select et le bouton de suppression dans le fichier
                 li.appendChild(fileLink);
                 li.appendChild(select);
                 li.appendChild(deleteButton);
                 fileList.appendChild(li);
+            } else {
+                alert("Seuls les fichiers PNG et PDF sont autorisés.");
             }
         }
 
-        // Fonction pour supprimer tous les fichiers de la liste
         function clearFiles() {
-            const fileList = document.getElementById('fileList');
-            fileList.innerHTML = ''; // Supprimer tous les éléments de la liste
+            document.getElementById('fileList').innerHTML = '';
         }
     </script>
+
 </body>
 </html>
