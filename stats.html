@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Data Visualizations</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+        .container {
+            padding: 2rem;
+        }
+        .chart-container {
+            margin-bottom: 30px;
+        }
+        .chart-container canvas {
+            width: 100%;
+            height: 400px;
+        }
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Order Data Visualizations</h1>
+</header>
+
+<div class="container">
+    <div class="chart-container">
+        <h2>1. Delivery Delays</h2>
+        <canvas id="deliveryDelaysChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>2. Disruptions by Type</h2>
+        <canvas id="disruptionTypesChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>3. Ordered vs Delivered Quantity</h2>
+        <canvas id="quantityComparisonChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>4. Transportation Mode</h2>
+        <canvas id="transportModeChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h2>5. Most Ordered Product Categories</h2>
+        <canvas id="productCategoriesChart"></canvas>
+    </div>
+</div>
+
+<script>
+    // Data for Delivery Delays (Example: Actual vs Expected)
+    const deliveryDelaysChart = new Chart(document.getElementById('deliveryDelaysChart'), {
+        type: 'bar',
+        data: {
+            labels: ['ORD1000', 'ORD1001', 'ORD1002', 'ORD1003', 'ORD1004'],  // Example Order_IDs
+            datasets: [{
+                label: 'Days of Delay',
+                data: [3, 4, 3, 0, 3], // Example delay data
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Data for Disruption Types
+    const disruptionTypesChart = new Chart(document.getElementById('disruptionTypesChart'), {
+        type: 'pie',
+        data: {
+            labels: ['Customs', 'Weather', 'Production', 'None'],
+            datasets: [{
+                data: [10, 8, 2, 5],  // Example disruption count
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // Data for Ordered vs Delivered Quantity
+    const quantityComparisonChart = new Chart(document.getElementById('quantityComparisonChart'), {
+        type: 'bar',
+        data: {
+            labels: ['ORD1000', 'ORD1001', 'ORD1002', 'ORD1003', 'ORD1004'],
+            datasets: [
+                {
+                    label: 'Ordered Quantity',
+                    data: [155, 117, 101, 138, 123],
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                },
+                {
+                    label: 'Delivered Quantity',
+                    data: [152, 114, 101, 138, 126],
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    // Data for Transportation Mode
+    const transportModeChart = new Chart(document.getElementById('transportModeChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Air', 'Sea', 'Land'],
+            datasets: [{
+                data: [18, 14, 8],  // Example transportation modes
+                backgroundColor: ['#FF5733', '#33FF57', '#3357FF'],
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    // Data for Most Ordered Product Categories
+    const productCategoriesChart = new Chart(document.getElementById('productCategoriesChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Mechanical', 'Raw Materials', 'Electronics'],
+            datasets: [{
+                label: 'Quantity Ordered',
+                data: [1043, 835, 712],  // Example quantities per category
+                backgroundColor: 'rgba(153, 102, 255, 0.6)',
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
