@@ -10,12 +10,12 @@
             font-family: 'Times New Roman', Times, serif;
             margin: 0;
             padding: 0;
-            background-color: #D0E7F9; /* Fond bleu doux */
+            background-color: #D0E7F9;
             color: #333;
         }
 
         header {
-            background-color: #007BFF; /* Bleu foncé */
+            background-color: #007BFF;
             color: white;
             padding: 10px;
             text-align: center;
@@ -27,7 +27,7 @@
 
         /* Boutons */
         button {
-            background-color: #0056b3; /* Bleu foncé */
+            background-color: #0056b3;
             color: white;
             padding: 30px 40px;
             border: none;
@@ -38,7 +38,7 @@
         }
 
         button:hover {
-            background-color: #003366; /* Bleu très foncé */
+            background-color: #003366;
         }
 
         /* Section principale */
@@ -140,7 +140,7 @@
             
             <div>
                 <a href="excalidraw-pagani.pdf" id="assignment1Link" target="_blank"><button>Assignment 1</button></a>
-                <a href="" id="assignment2Link" target="_blank"><button>Assignment 2</button></a>
+                <a href="stats.html" id="assignment2Link" target="_blank"><button>Assignment 2</button></a>
                 <a href="" id="assignment3Link" target="_blank"><button>Assignment 3</button></a>
                 <a href="" id="assignment4Link" target="_blank"><button>Assignment 4</button></a>
             </div>
@@ -199,22 +199,20 @@
     </div>
 
     <script>
-        // Fonction pour afficher une page en fonction de l'ID
         function showPage(pageId) {
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
         }
 
-        // Fonction pour valider le mot de passe et rediriger
         const passwordForm = document.getElementById('passwordForm');
         const failText = document.getElementById('failText');
         const errorGif = document.getElementById('errorGif');
         let attemptCount = 0;
         const gifs = [
-            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGlnYXAzOXp2Z2ZlcDBoeXNxZjJ0cnR5aHoxeGVkeHYycXNjYzhjdyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/fIkT0LdGUc4GushZ2Q/giphy.gif" }, // GIF 1
-            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXRiZmdlamp2cmZyaWttMGZsNHd1ZTl1bnZ1bHUxYzBobXZtZDkweSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/li0dswKqIZNpm/giphy.gif" }, // GIF 2
-            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHp5bGRmc2VmZ3ZmNWpkMTRpemoxOWJpNm5uMjljMG9hdmk0NzhidCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26xBKqeFFspRZjDTW/giphy.gif" } // GIF 3
+            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGlnYXAzOXp2Z2ZlcDBoeXNxZjJ0cnR5aHoxeGVkeHYycXNjYzhjdyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/fIkT0LdGUc4GushZ2Q/giphy.gif" },
+            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOXRiZmdlamp2cmZyaWttMGZsNHd1ZTl1bnZ1bHUxYzBobXZtZDkweSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/li0dswKqIZNpm/giphy.gif" },
+            { src: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcHp5bGRmc2VmZ3ZmNWpkMTRpemoxOWJpNm5uMjljMG9hdmk0NzhidCZlcD12MV9naWZzX3NlYXJjaCZjdD1n/26xBKqeFFspRZjDTW/giphy.gif" }
         ];
 
         passwordForm.addEventListener('submit', function(e) {
@@ -222,37 +220,32 @@
             const password = document.getElementById('password').value;
 
             if (password === '0000') {
-                // Supprimer le mot de passe de la page après un essai réussi
-                document.getElementById('password').value = ''; // Effacer le champ
-                failText.style.display = 'none'; // Cacher le texte "Fail" si le mot de passe est correct
-                errorGif.style.display = 'none'; // Cacher le GIF si le mot de passe est correct
+                document.getElementById('password').value = '';
+                failText.style.display = 'none';
+                errorGif.style.display = 'none';
                 showPage('personalSpacePage');
             } else {
-                // Si le mot de passe est incorrect
-                failText.style.display = 'block'; // Afficher le texte "Fail"
+                failText.style.display = 'block';
                 attemptCount++;
-                const gifIndex = attemptCount % gifs.length; // Choisir un GIF selon le nombre de tentatives
-                errorGif.src = gifs[gifIndex].src; // Changer le GIF
-                failText.textContent = gifs[gifIndex].text; // Changer le texte du GIF
-                errorGif.style.display = 'block'; // Afficher le GIF
+                const gifIndex = attemptCount % gifs.length;
+                errorGif.src = gifs[gifIndex].src;
+                errorGif.style.display = 'block';
             }
         });
 
-        // Fonction pour gérer le téléchargement de fichiers
         function handleFileUpload() {
             const fileInput = document.getElementById('pdfFile');
             const fileList = document.getElementById('fileList');
-            const file = fileInput.files[0]; // Récupérer le premier fichier téléchargé
+            const file = fileInput.files[0];
 
             if (file) {
                 const li = document.createElement('li');
                 const fileLink = document.createElement('a');
-                const fileURL = URL.createObjectURL(file); // Créer une URL de l'objet pour accéder au fichier
+                const fileURL = URL.createObjectURL(file);
                 fileLink.href = fileURL;
                 fileLink.target = '_blank';
                 fileLink.textContent = file.name;
 
-                // Créer un bouton déroulant pour lier le fichier à un assignment
                 const select = document.createElement('select');
                 const options = ["Aucun", "Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4"];
 
@@ -263,7 +256,6 @@
                     select.appendChild(optionElement);
                 });
 
-                // Lorsque l'option est changée, lier le fichier à l'assignment sélectionné
                 select.addEventListener('change', function() {
                     const selectedAssignment = select.value;
                     const assignmentLinks = {
@@ -277,20 +269,17 @@
                     const linkElement = document.getElementById(assignmentLinks[selectedAssignment]);
                     if (linkElement) {
                         linkElement.href = fileURL;
-                        // Ne pas changer le texte du bouton
                     } else {
                         alert("Le fichier n'est lié à aucun assignment.");
                     }
                 });
 
-                // Créer un bouton pour supprimer le fichier
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = "Supprimer";
                 deleteButton.onclick = function() {
-                    li.remove(); // Supprimer le fichier de la liste
+                    li.remove();
                 };
 
-                // Ajouter le lien, le select et le bouton de suppression dans le fichier
                 li.appendChild(fileLink);
                 li.appendChild(select);
                 li.appendChild(deleteButton);
@@ -298,10 +287,9 @@
             }
         }
 
-        // Fonction pour supprimer tous les fichiers de la liste
         function clearFiles() {
             const fileList = document.getElementById('fileList');
-            fileList.innerHTML = ''; // Supprimer tous les éléments de la liste
+            fileList.innerHTML = '';
         }
     </script>
 </body>
