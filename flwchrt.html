@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flowchart Logistique</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    #canvas {
+      background-color: #f0f0f0;
+      cursor: grab;
+    }
+    .toolbar {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toolbar button, .toolbar input[type=color] {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+    .minimap {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 150px;
+      height: 100px;
+      border: 1px solid #ccc;
+      background: white;
+      z-index: 20;
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="addNode()">Add a step</button>
+    <button onclick="linkMode = !linkMode" id="linkBtn">Link steps</button>
+    <input type="color" id="colorPicker" value="#ffffff" />
+    <button onclick="clearCanvas()">Delete everything</button>
+    <button onclick="saveImage()">Download SVG</button>
+  </div>
+  <svg id="canvas" width="100%" height="100%"></svg>
+  <svg class="minimap" id="minimap"></svg>
+
+  <script>
+    const svg = document.getElementById("canvas");
+    const minimap = document.getElementById("minimap");
+    const colorPicker = document.getElementById("colorPicker");
+    let nodes = [];
+    let links = [];
+    let selectedNode = null;
+    let dragging = false;
+    let offset = { x: 0, y: 0 };
+    let viewBox = { x: 0, y: 0, w: window.innerWidth, h: window.innerHeight };
+    let panStart = null;
+    let linkMode = false;
+    let linkStart = null;
+
+    function updateViewBox() {
+      svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+    }
+
+    svg.setAttribute("viewBox", `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+
+    svg.addEventListener("mousedown", (e) => {
+      if (e.target.tagName === "svg") {
+        panStart = { x: e.clientX, y: e.clientY };
+        dragging = true;
+        svg.style.cursor = "grabbing";
+      }
+    });
+
+    svg.addEventListener("mousemove", (e) => {
+      if (dragging) {
+        const dx = (e.clientX - panStart.x) * viewBox.w / window.innerWidth;
+        const dy = (e.clientY - panStart.y) * viewBox.h / window.innerHeight;
+        viewBox.x -= dx;
+        viewBox.y -= dy;
+        updateViewBox();
+        panStart = { x: e.clientX, y: e.clientY };
+      } else if (selectedNode) {
+        const rect = selectedNode.querySelector("rect");
+        const text = selectedNode.querySelector("text");
+        const x = e.offsetX * viewBox.w / svg.clientWidth + viewBox.x - offset.x;
+        const y = e.offsetY * viewBox.h / svg.clientHeight + viewBox.y - offset.y;
+        rect.setAttribute("x", x);
+        rect.setAttribute("y", y);
+        text.setAttribute("x", x + 10);
+        text.setAttribute("y", y + 30);
+        updateLinks();
+      }
+    });
+
+    svg.addEventListener("mouseup", () => {
+      dragging = false;
+      selectedNode = null;
+      svg.style.cursor = "grab";
+    });
+
+    svg.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const zoomFactor = 1.05;
+      const scale = e.deltaY < 0 ? 1 / zoomFactor : zoomFactor;
+      const mx = e.offsetX / svg.clientWidth * viewBox.w + viewBox.x;
+      const my = e.offsetY / svg.clientHeight * viewBox.h + viewBox.y;
+      viewBox.x = mx - (mx - viewBox.x) * scale;
+      viewBox.y = my - (my - viewBox.y) * scale;
+      viewBox.w *= scale;
+      viewBox.h *= scale;
+      updateViewBox();
+    });
+
+    function addNode() {
+      const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+
+      const x = viewBox.x + viewBox.w / 2 - 50;
+      const y = viewBox.y + viewBox.h / 2 - 25;
+
+      rect.setAttribute("x", x);
+      rect.setAttribute("y", y);
+      rect.setAttribute("width", 100);
+      rect.setAttribute("height", 50);
+      rect.setAttribute("fill", colorPicker.value);
+      rect.setAttribute("stroke", "#333333");
+
+      text.setAttribute("x", x + 10);
+      text.setAttribute("y", y + 30);
+      text.setAttribute("font-size", "14");
+      text.textContent = prompt("Name the step :", "Step") || "Étape";
+
+      group.appendChild(rect);
+      group.appendChild(text);
+
+      group.addEventListener("mousedown", (e) => {
+        selectedNode = group;
+        offset.x = e.offsetX - parseFloat(rect.getAttribute("x"));
+        offset.y = e.offsetY - parseFloat(rect.getAttribute("y"));
+      });
+
+      group.addEventListener("dblclick", () => {
+        const newText = prompt("Modify the text :", text.textContent);
+        if (newText) text.textContent = newText;
+      });
+
+      group.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        if (confirm("Delete this step ?")) {
+          svg.removeChild(group);
+          nodes = nodes.filter(n => n !== group);
+          links = links.filter(l => {
+            if (l.from === group || l.to === group) {
+              svg.removeChild(l.line);
+              return false;
+            }
+            return true;
+          });
+        }
+      });
+
+      group.addEventListener("click", () => {
+        if (linkMode) {
+          if (!linkStart) {
+            linkStart = group;
+          } else {
+            createLink(linkStart, group);
+            linkStart = null;
+          }
+        }
+      });
+
+      svg.appendChild(group);
+      nodes.push(group);
+    }
+
+    function createLink(from, to) {
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("stroke", "black");
+      line.setAttribute("stroke-width", "2");
+      svg.insertBefore(line, svg.firstChild);
+
+      links.push({ line, from, to });
+      updateLinks();
+
+      line.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        if (confirm("Supprimer cette flèche ?")) {
+          svg.removeChild(line);
+          links = links.filter(l => l.line !== line);
+        }
+      });
+    }
+
+    function updateLinks() {
+      links.forEach(link => {
+        const rectFrom = link.from.querySelector("rect");
+        const rectTo = link.to.querySelector("rect");
+        const x1 = parseFloat(rectFrom.getAttribute("x")) + 50;
+        const y1 = parseFloat(rectFrom.getAttribute("y")) + 25;
+        const x2 = parseFloat(rectTo.getAttribute("x")) + 50;
+        const y2 = parseFloat(rectTo.getAttribute("y")) + 25;
+        link.line.setAttribute("x1", x1);
+        link.line.setAttribute("y1", y1);
+        link.line.setAttribute("x2", x2);
+        link.line.setAttribute("y2", y2);
+      });
+    }
+
+    function clearCanvas() {
+      nodes.forEach(n => svg.removeChild(n));
+      links.forEach(l => svg.removeChild(l.line));
+      nodes = [];
+      links = [];
+    }
+
+    function saveImage() {
+      const serializer = new XMLSerializer();
+      const source = serializer.serializeToString(svg);
+      const blob = new Blob([source], { type: "image/svg+xml;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "flowchart.svg";
+      a.click();
+    }
+  </script>
+</body>
+</html>
