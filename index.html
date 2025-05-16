@@ -142,7 +142,8 @@
                 <a href="excalidraw-pagani.pdf" id="assignment1Link" target="_blank"><button>Assignment 1</button></a>
                 <a href="stats.html" id="assignment2Link" target="_blank"><button>Assignment 2</button></a>
                 <a href="flwchrt.html" id="assignment3Link" target="_blank"><button>Assignment 3</button></a>
-                <a href="" id="assignment4Link" target="_blank"><button>Assignment 4</button></a>
+                <a href="Game Design Process Report.pdf" id="assignment4Link" target="_blank"><button>Assignment 4</button></a>
+                <a href="battle pass.html" id="assignment41Link" target="_blank"><button>Assignment 4.1</button></a>
             </div>
             
             <p><a href="#passwordPage" onclick="showPage('passwordPage')">PS</a></p>
@@ -247,7 +248,7 @@
                 fileLink.textContent = file.name;
 
                 const select = document.createElement('select');
-                const options = ["Aucun", "Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4"];
+                const options = ["Aucun", "Assignment 1", "Assignment 2", "Assignment 3", "Assignment 4", "Assignment 4.1"];
 
                 options.forEach(function(option) {
                     const optionElement = document.createElement('option');
@@ -263,6 +264,7 @@
                         "Assignment 2": "assignment2Link",
                         "Assignment 3": "assignment3Link",
                         "Assignment 4": "assignment4Link",
+                        "Assignment 4.1": "assignment41Link",
                         "Aucun": null
                     };
 
