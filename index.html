@@ -148,6 +148,12 @@
                 <a href="week.12.logistic.xlsx" target="_blank"><button>Assignment Week 12</button></a>
                 <a href="Week 13 - Counterfeit Supplements.xlsx" target="_blank"><button>Assignment Week 13</button></a>
                 <a href="TSP5INTRO.jpg" target="_blank"><button>Assignment Week 5</button></a>
+
+                <!-- NOUVEAUX BOUTONS AJOUTÉS ICI -->
+                <a href="Week.11.Assignement.pdf" target="_blank"><button>Assignment Week 11</button></a>
+                <a href="Week16.jpg" target="_blank"><button>Assignment Week 16</button></a>
+                <a href="TSP_GAME.html" target="_blank"><button>TSP GAME (a bit slow to start)</button></a>
+                <a href="TSP (Travel Salesman Problem) Game Design Report.pdf" target="_blank"><button>TSP GAME Report</button></a>
             </div>
             
             <p><a href="#passwordPage" onclick="showPage('passwordPage')">PS</a></p>
@@ -171,12 +177,10 @@
                 <button type="submit">Accéder</button>
             </form>
 
-            <!-- Affichage du texte "Fail" et du GIF -->
             <div id="failText">Fail</div>
             <img id="errorGif" src="" alt="Erreur mot de passe" />
         </div>
 
-        <!-- Bouton de retour à la Landing Page uniquement visible sur la page du mot de passe -->
         <button id="backToLandingPage" class="back-to-landing" onclick="showPage('landingPage')">landing page</button>
     </div>
 
@@ -187,14 +191,10 @@
         </header>
         
         <div class="main-content">
-            
             <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf" onchange="handleFileUpload()">
-            
             <h3>PDF List</h3>
             <ul id="fileList"></ul>
-            
             <button onclick="clearFiles()">Delete all the documents</button>
-            
             <p><a href="#landingPage" onclick="showPage('landingPage')">Landing Page</a></p>
         </div>
         
@@ -268,4 +268,23 @@
                         "Assignment 2": "assignment2Link",
                         "Assignment 3": "assignment3Link",
                         "Assignment 4": "assignment4Link",
-                        "Assignment 4.1": "assignment41Link",
+                        "Assignment 4.1": "assignment41Link"
+                    };
+                    if (assignmentLinks[selectedAssignment]) {
+                        document.getElementById(assignmentLinks[selectedAssignment]).href = fileURL;
+                    }
+                });
+
+                li.appendChild(fileLink);
+                li.appendChild(select);
+                fileList.appendChild(li);
+            }
+        }
+
+        function clearFiles() {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
