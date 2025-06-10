@@ -145,6 +145,9 @@
                 <a href="Game Design Process Report.pdf" id="assignment4Link" target="_blank"><button>Assignment Week 6</button></a>
                 <a href="battle pass.html" id="assignment41Link" target="_blank"><button>Assignment Week6.1.1</button></a>
                 <a href="initial_layout_heatmap.pdf" id="assignmentWeek12Link" target="_blank"><button>Assignment Week 12</button></a>
+                <a href="week.12.logistic.xlsx" target="_blank"><button>Assignment Week 12</button></a>
+                <a href="Week 13 - Counterfeit Supplements.xlsx" target="_blank"><button>Assignment Week 13</button></a>
+                <a href="TSP5INTRO.jpg" target="_blank"><button>Assignment Week 5</button></a>
             </div>
             
             <p><a href="#passwordPage" onclick="showPage('passwordPage')">PS</a></p>
@@ -266,35 +269,3 @@
                         "Assignment 3": "assignment3Link",
                         "Assignment 4": "assignment4Link",
                         "Assignment 4.1": "assignment41Link",
-                        "Assignment Week 12": "assignmentWeek12Link",
-                        "Aucun": null
-                    };
-
-                    const linkElement = document.getElementById(assignmentLinks[selectedAssignment]);
-                    if (linkElement) {
-                        linkElement.href = fileURL;
-                    } else {
-                        alert("Le fichier n'est lié à aucun assignment.");
-                    }
-                });
-
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = "Supprimer";
-                deleteButton.onclick = function() {
-                    li.remove();
-                };
-
-                li.appendChild(fileLink);
-                li.appendChild(select);
-                li.appendChild(deleteButton);
-                fileList.appendChild(li);
-            }
-        }
-
-        function clearFiles() {
-            const fileList = document.getElementById('fileList');
-            fileList.innerHTML = '';
-        }
-    </script>
-</body>
-</html>
